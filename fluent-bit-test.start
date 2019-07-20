@@ -1,0 +1,3 @@
+#!/usr/local/bin/bash
+
+fluent-bit -c /usr/local/etc/fluent-bit/fluent-bit-test.conf

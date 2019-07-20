@@ -1,0 +1,16 @@
+{
+  "order": 2,
+  "index_patterns": [
+      "logstash-ecs-fluentbit-*"
+  ],
+  "settings": {
+      "index": {
+          "lifecycle": {
+              "name": "watch-history-ilm-policy"
+          },
+          "number_of_shards": "1",
+          "number_of_replicas": "0"
+      }
+  },
+  "version": 2
+}
