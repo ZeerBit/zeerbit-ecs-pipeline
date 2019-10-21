@@ -36,3 +36,29 @@ function bro_dns_parse_answers(tag, timestamp, record)
   
   return 1, timestamp, record
 end
+
+function bro_dns_parse_flags(tag, timestamp, record)
+  local flags = {}
+  if record["AA"] == "T" then
+    table.insert(flags, 'AA')
+  end
+  if record["TC"] == "T" then
+    table.insert(flags, 'TC')
+  end
+  if record["RD"] == "T" then
+    table.insert(flags, 'RD')
+  end
+  if record["RA"] == "T" then
+    table.insert(flags, 'RA')
+  end
+  local flags_vector = "["
+  for i,v in ipairs(flags) do
+    if string.len(flags_vector) > 1 then
+      flags_vector = flags_vector..","
+    end
+    flags_vector = flags_vector.."'"..v.."'"
+  end
+  flags_vector = flags_vector.."]"
+  record["dns_header_flags"] = flags_vector
+  return 1, timestamp, record
+end
