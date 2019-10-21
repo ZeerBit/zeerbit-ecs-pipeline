@@ -64,7 +64,9 @@ function bro_dns_parse_flags(tag, timestamp, record)
 end
 
 function bro_dns_parse_zeek(tag, timestamp, record)
-  record["zeek"] = {}
+  if record["zeek"] == nil then
+    record["zeek"] = {}
+  end
   record["zeek"]["dns"] = {}
   if record["rejected"] == "T" then
     record["zeek"]["dns"]["rejected"] = true
