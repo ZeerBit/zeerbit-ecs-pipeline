@@ -6,35 +6,39 @@ function string:split (sep)
 end
 
 function bro_dns_parse_answers(tag, timestamp, record)
-  local answers_data_table = record.answers:split(",")
-  local answers_ttl_table = record.TTLs:split(",")
+  if record["answers"] ~= nil and record["TTLs"] ~= nil then
+    local answers_data_table = record.answers:split(",")
+    local answers_ttl_table = record.TTLs:split(",")
 
-  local ordered_keys = {}
+    local ordered_keys = {}
 
-  for k in pairs(answers_data_table) do
-      table.insert(ordered_keys, k)
-  end
-
-  table.sort(ordered_keys)
-  
-  local answers = {}
-  local data_key = "data"
-  local ttl_key = "ttl"
-  
-  for i = 1, #ordered_keys do
-    local answer = {}
-    if answers_data_table[i] ~= nil and answers_data_table[i] ~= "-" then
-      answer[data_key] = answers_data_table[i]
-      answer[ttl_key] = answers_ttl_table[i]
-      answers[i] = answer
+    for k in pairs(answers_data_table) do
+        table.insert(ordered_keys, k)
     end
-  end
+
+    table.sort(ordered_keys)
   
-  if #answers > 0 then
-    record["dns_answers"] = answers
-  end
+    local answers = {}
+    local data_key = "data"
+    local ttl_key = "ttl"
   
-  return 1, timestamp, record
+    for i = 1, #ordered_keys do
+      local answer = {}
+      if answers_data_table[i] ~= nil and answers_data_table[i] ~= "-" then
+        answer[data_key] = answers_data_table[i]
+        answer[ttl_key] = answers_ttl_table[i]
+        answers[i] = answer
+      end
+    end
+  
+    if #answers > 0 then
+      record["dns_answers"] = answers
+    end
+  
+    return 1, timestamp, record
+  else
+    return 0, timestamp, record
+  end
 end
 
 function bro_dns_parse_flags(tag, timestamp, record)
