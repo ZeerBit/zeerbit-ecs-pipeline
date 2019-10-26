@@ -5,6 +5,15 @@ function string:split (sep)
     return fields
 end
 
+function bro_dns_determine_dns_type(tag, timestamp, record)
+  if record["dns_response_code"] == nil or record["dns_response_code"] == "-" then
+    record["dns_type"] = "query"
+  else
+    record["dns_type"] = "answer"
+  end
+  return 1, timestamp, record
+end
+
 function bro_dns_parse_answers(tag, timestamp, record)
   if record["answers"] ~= nil and record["TTLs"] ~= nil then
     local answers_data_table = record.answers:split(",")
