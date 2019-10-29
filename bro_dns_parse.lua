@@ -64,16 +64,12 @@ function bro_dns_parse_flags(tag, timestamp, record)
   if record["RA"] == "T" then
     table.insert(flags, 'RA')
   end
-  local flags_vector = "["
-  for i,v in ipairs(flags) do
-    if string.len(flags_vector) > 1 then
-      flags_vector = flags_vector..","
-    end
-    flags_vector = flags_vector.."'"..v.."'"
+  if #flags > 0 then
+    record["dns_header_flags"] = flags
+    return 1, timestamp, record
+  else
+    return 0, timestamp, record
   end
-  flags_vector = flags_vector.."]"
-  record["dns_header_flags"] = flags_vector
-  return 1, timestamp, record
 end
 
 function bro_dns_parse_zeek(tag, timestamp, record)
