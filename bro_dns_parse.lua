@@ -82,5 +82,19 @@ function bro_dns_parse_zeek(tag, timestamp, record)
   else
     record["zeek"]["dns"]["rejected"] = false
   end
+  
+  if record["answers"] ~= nil and record["answers"] ~= "-" then
+    record["zeek"]["dns"]["answers"] = record.answers:split(",")
+  end
+  
+  if record["TTLs"] ~= nil and record["TTLs"] ~= "-" then
+    local ttls_strings_table = record.TTLs:split(",")
+    local ttls_numbers_table = {}
+    for k,v in pairs(ttls_strings_table) do
+      table.insert(ttls_numbers_table, tonumber(v))
+    end
+    record["zeek"]["dns"]["ttls"] = ttls_numbers_table
+  end
+  
   return 1, timestamp, record
 end
