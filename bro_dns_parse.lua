@@ -5,6 +5,24 @@ function string:split (sep)
     return fields
 end
 
+---checks if a string represents an ip address
+-- @return true or false
+-- https://luacode.wordpress.com/2012/01/09/checking-ip-address-format-in-lua/
+function is_ip_address(ip)
+ if not ip then return false end
+ local a,b,c,d = ip:match("^(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)$")
+ a = tonumber(a)
+ b = tonumber(b)
+ c = tonumber(c)
+ d = tonumber(d)
+ if not a or not b or not c or not d then return false end
+ if a<0 or 255<a then return false end
+ if b<0 or 255<b then return false end
+ if c<0 or 255<c then return false end
+ if d<0 or 255<d then return false end
+ return true
+end
+
 function bro_dns_determine_dns_type(tag, timestamp, record)
   if record["dns_response_code"] == nil or record["dns_response_code"] == "-" then
     record["dns_type"] = "query"
@@ -42,8 +60,17 @@ function bro_dns_parse_answers(tag, timestamp, record)
   
     if #answers > 0 then
       record["dns_answers"] = answers
+      local resolved_ip = {}
+      for k,v in pairs(answers_data_table) do
+        if is_ip_address(v) then
+          table.insert(resolved_ip,v)
+        end
+      end
+      if #resolved_ip > 0 then
+        record["dns_resolved_ip"] = resolved_ip
+      end
     end
-  
+    
     return 1, timestamp, record
   else
     return 0, timestamp, record
