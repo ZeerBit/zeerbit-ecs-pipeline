@@ -23,6 +23,36 @@ function is_ip_address(ip)
  return true
 end
 
+---checks if a string represents an ip address - IPv4 or IPv6
+-- @return true or false
+-- credits to Paul Kulchenko https://stackoverflow.com/questions/10975935/lua-function-check-if-ipv4-or-ipv6-or-string
+function is_ip46_address(ip)
+  if type(ip) ~= "string" then return false end
+
+  -- check for format 1.11.111.111 for ipv4
+  local chunks = {ip:match("^(%d+)%.(%d+)%.(%d+)%.(%d+)$")}
+  if #chunks == 4 then
+    for _,v in pairs(chunks) do
+      if tonumber(v) > 255 then return false end
+    end
+    return true
+  end
+
+  -- check for ipv6 format, should be 8 'chunks' of numbers/letters
+  -- without leading/trailing chars
+  -- or fewer than 8 chunks, but with only one `::` group
+  local chunks = {ip:match("^"..(("([a-fA-F0-9]*):"):rep(8):gsub(":$","$")))}
+  if #chunks == 8
+  or #chunks < 8 and ip:match('::') and not ip:gsub("::","",1):match('::') then
+    for _,v in pairs(chunks) do
+      if #v > 0 and tonumber(v, 16) > 65535 then return false end
+    end
+    return true
+  end
+
+  return false
+end
+
 function bro_dns_determine_dns_type(tag, timestamp, record)
   if record["dns_response_code"] == nil or record["dns_response_code"] == "-" then
     record["dns_type"] = "query"
@@ -62,7 +92,7 @@ function bro_dns_parse_answers(tag, timestamp, record)
       record["dns_answers"] = answers
       local resolved_ip = {}
       for k,v in pairs(answers_data_table) do
-        if is_ip_address(v) then
+        if is_ip46_address(v) then
           table.insert(resolved_ip,v)
         end
       end
