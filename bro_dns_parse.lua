@@ -25,7 +25,7 @@ end
 
 ---checks if a string represents an ip address - IPv4 or IPv6
 -- @return true or false
--- credits to Paul Kulchenko https://stackoverflow.com/questions/10975935/lua-function-check-if-ipv4-or-ipv6-or-string
+-- credits to Paul Kulchenko and chrisfish https://stackoverflow.com/questions/10975935/lua-function-check-if-ipv4-or-ipv6-or-string
 function is_ip46_address(ip)
   if type(ip) ~= "string" then return false end
 
@@ -41,11 +41,23 @@ function is_ip46_address(ip)
   -- check for ipv6 format, should be 8 'chunks' of numbers/letters
   -- without leading/trailing chars
   -- or fewer than 8 chunks, but with only one `::` group
-  local chunks = {ip:match("^"..(("([a-fA-F0-9]*):"):rep(8):gsub(":$","$")))}
-  if #chunks == 8
-  or #chunks < 8 and ip:match('::') and not ip:gsub("::","",1):match('::') then
-    for _,v in pairs(chunks) do
-      if #v > 0 and tonumber(v, 16) > 65535 then return false end
+  local addr = ip:match("^([a-fA-F0-9:]+)$")
+  if addr ~= nil and #addr > 1 then
+    -- address part
+    local nc, dc = 0, false      -- chunk count, double colon
+    for chunk, colons in addr:gmatch("([^:]*)(:*)") do
+      if nc > (dc and 7 or 8) then return false end    -- max allowed chunks
+      if #chunk > 0 and tonumber(chunk, 16) > 65535 then
+        return false
+      end
+      if #colons > 0 then
+        -- max consecutive colons allowed: 2
+        if #colons > 2 then return false end
+        -- double colon shall appear only once
+        if #colons == 2 and dc == true then return false end
+        if #colons == 2 and dc == false then dc = true end
+      end
+      nc = nc + 1      
     end
     return true
   end
