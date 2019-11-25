@@ -103,13 +103,19 @@ function bro_dns_parse_answers(tag, timestamp, record)
     if #answers > 0 then
       record["dns_answers"] = answers
       local resolved_ip = {}
+      local resolved_name = {}
       for k,v in pairs(answers_data_table) do
         if is_ip46_address(v) then
           table.insert(resolved_ip,v)
+        else
+          table.insert(resolved_name,v)
         end
       end
       if #resolved_ip > 0 then
         record["dns_resolved_ip"] = resolved_ip
+      end
+      if #resolved_name > 0 then
+        record["dns_resolved_name"] = resolved_name
       end
     end
     
