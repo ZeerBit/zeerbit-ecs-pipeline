@@ -90,12 +90,25 @@ function bro_dns_parse_answers(tag, timestamp, record)
     local answers = {}
     local data_key = "data"
     local ttl_key = "ttl"
+    local class_key = "class"
+    local class_value = nil
+    
+    if record["question"] ~= nil and record["question"]["class"] ~= nil and record["question"]["class"] ~= "-" then
+      if record["question"]["class"] == "C_INTERNET" then
+        class_value = "IN"
+      else
+        class_value = record["question"]["class"]
+      end
+    end
   
     for i = 1, #ordered_keys do
       local answer = {}
       if answers_data_table[i] ~= nil and answers_data_table[i] ~= "-" then
         answer[data_key] = answers_data_table[i]
         answer[ttl_key] = answers_ttl_table[i]
+        if class_value ~= nil then
+          answer[class_key] = class_value
+        end
         answers[i] = answer
       end
     end
