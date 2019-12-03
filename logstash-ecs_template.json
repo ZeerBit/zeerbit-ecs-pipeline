@@ -2,10 +2,10 @@
   "index_patterns": [
     "logstash-ecs-*"
   ], 
-  "version": 3,
+  "version": 4,
   "mappings": {
     "_meta": {
-      "version": "1.4.0-dev"
+      "version": "1.4.0-dev-bortok"
     }, 
     "date_detection": false, 
     "dynamic_templates": [
@@ -447,8 +447,7 @@
             "type": "keyword"
           }, 
           "id": {
-            "ignore_above": 1024, 
-            "type": "keyword"
+            "type": "long"
           }, 
           "op_code": {
             "ignore_above": 1024, 
@@ -484,6 +483,10 @@
           }, 
           "resolved_ip": {
             "type": "ip"
+          }, 
+          "resolved_name": {
+            "ignore_above": 1024, 
+            "type": "keyword"
           }, 
           "response_code": {
             "ignore_above": 1024, 
