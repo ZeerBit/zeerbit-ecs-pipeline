@@ -3,9 +3,10 @@
     "logstash-ecs-*"
   ],
   "order": 3,
+  "version": 4,
   "mappings": {
     "_meta": {
-      "version": "0.1.2-dev"
+      "version": "1.4.0-dev-bortok"
     },
     "dynamic_templates": [
       {
@@ -48,6 +49,20 @@
               "msg_types": {
                 "ignore_above": 1024,
                 "type": "keyword"
+              }
+            }
+          },
+          "dns": {
+            "properties": {
+              "answers": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "TTLs": {
+                "type": "long"
+              },
+              "rejected": {
+                "type": "boolean"
               }
             }
           }
