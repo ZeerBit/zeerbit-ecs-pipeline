@@ -39,6 +39,22 @@ function bro_conn_parse_bytes(tag, timestamp, record)
   end
 end
 
+function bro_conn_parse_packets(tag, timestamp, record)
+  local packets = 0
+  if tonumber(record["source_packets"]) ~= nil then
+    packets = packets + tonumber(record["source_packets"])
+  end
+  if tonumber(record["destination_packets"]) ~= nil then
+    packets = packets + tonumber(record["destination_packets"])
+  end
+  if packets > 0 then
+    record["network_packets"] = packets
+    return 1, timestamp, record
+  else
+    return 0, timestamp, record
+  end
+end
+
 function bro_conn_parse_state(tag, timestamp, record)
   local state_codes = {
     ["S0"] = "Connection attempt seen, no reply",
