@@ -3,7 +3,7 @@
     "logstash-ecs-*"
   ],
   "order": 3,
-  "version": 6,
+  "version": 7,
   "mappings": {
     "_meta": {
       "version": "1.4.0-dev-bortok"
@@ -102,6 +102,16 @@
               },
               "rejected": {
                 "type": "boolean"
+              }
+            }
+          },
+          "icmp": {
+            "properties": {
+              "type": {
+                "type": "long"
+              },
+              "code": {
+                "type": "long"
               }
             }
           }

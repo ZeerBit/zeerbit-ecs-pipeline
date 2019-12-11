@@ -78,3 +78,13 @@ function bro_conn_parse_state(tag, timestamp, record)
     return 0, timestamp, record
   end
 end
+
+function bro_conn_parse_icmp(tag, timestamp, record)
+  if record["network_transport"] == "icmp" then
+    record["icmp_type"] = record["source_port"]
+    record["icmp_code"] = record["destination_port"]
+    return 1, timestamp, record
+  else
+    return 0, timestamp, record
+  end
+end
