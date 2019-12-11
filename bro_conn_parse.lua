@@ -85,6 +85,7 @@ function bro_conn_parse_icmp(tag, timestamp, record)
     record["icmp_code"] = record["destination_port"]
     record["source_port"] = nil
     record["destination_port"] = nil
+    record["zeek_connection_conn_state"] = nil
     return 1, timestamp, record
   else
     return 0, timestamp, record
