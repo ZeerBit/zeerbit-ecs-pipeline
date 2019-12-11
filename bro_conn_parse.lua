@@ -1,17 +1,25 @@
 function bro_conn_parse_direction(tag, timestamp, record)
   if record["local_orig"] == "T" and record["local_resp"] == "T" then
-    record["network_direction"] = "local"
-  else 
-    if record["local_orig"] == "T" then
-      record["network_direction"] = "outbound"
-    else 
-      if record["local_resp"] == "T" then
-        record["network_direction"] = "inbound"
-      else
-        return 0, timestamp, record
-      end
-    end
+    record["network_direction"] = "internal"
+    return 1, timestamp, record
   end
+      
+  if record["local_orig"] == "F" and record["local_resp"] == "F" then
+    record["network_direction"] = "external"
+    return 1, timestamp, record
+  end
+  
+  if record["local_orig"] == "T" and record["local_resp"] == "F" then
+    record["network_direction"] = "outbound"
+    return 1, timestamp, record
+  end
+
+  if record["local_orig"] == "F" and record["local_resp"] == "T" then
+    record["network_direction"] = "inbound"
+    return 1, timestamp, record
+  end
+
+  record["network_direction"] = "unknown"
   return 1, timestamp, record
 end
 
