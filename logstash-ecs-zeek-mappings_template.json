@@ -3,7 +3,7 @@
     "logstash-ecs-*"
   ],
   "order": 3,
-  "version": 5,
+  "version": 6,
   "mappings": {
     "_meta": {
       "version": "1.4.0-dev-bortok"
@@ -30,6 +30,10 @@
           "connection": {
             "properties": {
               "conn_state": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "state_msg": {
                 "ignore_above": 1024,
                 "type": "keyword"
               },
