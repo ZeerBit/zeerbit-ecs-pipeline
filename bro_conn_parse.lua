@@ -83,6 +83,8 @@ function bro_conn_parse_icmp(tag, timestamp, record)
   if record["network_transport"] == "icmp" then
     record["icmp_type"] = record["source_port"]
     record["icmp_code"] = record["destination_port"]
+    record["source_port"] = nil
+    record["destination_port"] = nil
     return 1, timestamp, record
   else
     return 0, timestamp, record
