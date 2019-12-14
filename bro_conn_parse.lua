@@ -25,11 +25,13 @@ end
 
 function bro_conn_parse_bytes(tag, timestamp, record)
   local bytes = 0
-  if tonumber(record["source_bytes"]) ~= nil then
-    bytes = bytes + tonumber(record["source_bytes"])
+  if tonumber(record["zeek_connection_orig_ip_bytes"]) ~= nil then
+    record["source_bytes"] = tonumber(record["zeek_connection_orig_ip_bytes"])
+    bytes = bytes + record["source_bytes"]
   end
-  if tonumber(record["destination_bytes"]) ~= nil then
-    bytes = bytes + tonumber(record["destination_bytes"])
+  if tonumber(record["zeek_connection_resp_ip_bytes"]) ~= nil then
+    record["destination_bytes"] = tonumber(record["zeek_connection_resp_ip_bytes"])
+    bytes = bytes + record["destination_bytes"]
   end
   if bytes > 0 then
     record["network_bytes"] = bytes

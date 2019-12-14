@@ -41,6 +41,12 @@
                 "ignore_above": 1024,
                 "type": "keyword"
               },
+              "orig_bytes": {
+                "type": "long"
+              },
+              "resp_bytes": {
+                "type": "long"
+              },
               "missed_bytes": {
                 "type": "long"
               },
