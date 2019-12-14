@@ -3,7 +3,7 @@
     "logstash-ecs-*"
   ],
   "order": 3,
-  "version": 4,
+  "version": 7,
   "mappings": {
     "_meta": {
       "version": "1.4.0-dev-bortok"
@@ -23,6 +23,51 @@
     "properties": {
       "zeek": {
         "properties": {
+          "uid": {
+            "ignore_above": 1024,
+            "type": "keyword"
+          },
+          "connection": {
+            "properties": {
+              "conn_state": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "state_msg": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "history": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "orig_bytes": {
+                "type": "long"
+              },
+              "resp_bytes": {
+                "type": "long"
+              },
+              "missed_bytes": {
+                "type": "long"
+              },
+              "orig_ip_bytes": {
+                "type": "long"
+              },
+              "resp_ip_bytes": {
+                "type": "long"
+              },
+              "tunnel_parents": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "vlan": {
+                "type": "long"
+              },
+              "inner_vlan": {
+                "type": "long"
+              }
+            }
+          },
           "dhcp": {
             "properties": {
               "session_ids": {
@@ -63,6 +108,16 @@
               },
               "rejected": {
                 "type": "boolean"
+              }
+            }
+          },
+          "icmp": {
+            "properties": {
+              "type": {
+                "type": "long"
+              },
+              "code": {
+                "type": "long"
               }
             }
           }
