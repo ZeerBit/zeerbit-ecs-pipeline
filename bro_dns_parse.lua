@@ -105,7 +105,7 @@ function bro_dns_parse_answers(tag, timestamp, record)
       local answer = {}
       if answers_data_table[i] ~= nil and answers_data_table[i] ~= "-" then
         answer[data_key] = answers_data_table[i]
-        answer[ttl_key] = answers_ttl_table[i]
+        answer[ttl_key] = tonumber(answers_ttl_table[i])
         if class_value ~= nil then
           answer[class_key] = class_value
         end
