@@ -3,7 +3,7 @@
     "logstash-ecs-*"
   ],
   "order": 3,
-  "version": 7,
+  "version": 8,
   "mappings": {
     "_meta": {
       "version": "1.4.0-dev-bortok"
@@ -70,7 +70,7 @@
           },
           "dhcp": {
             "properties": {
-              "session_ids": {
+              "uids": {
                 "ignore_above": 1024,
                 "type": "keyword"
               },
