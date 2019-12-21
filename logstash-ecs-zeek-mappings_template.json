@@ -120,6 +120,26 @@
                 "type": "long"
               }
             }
+          },
+          "ssl": {
+            "properties": {
+              "last_alert": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "validation_status": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "cert_chain_fuids": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "client_cert_chain_fuids": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              }
+            }
           }
         }
       }
