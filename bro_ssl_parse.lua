@@ -1,3 +1,12 @@
+-- Duplication of the split function definition
+-- TODO include from parse_helpers.lua
+function string:split (sep)
+    local sep, fields = sep or ":", {}
+    local pattern = string.format("([^%s]+)", sep)
+    self:gsub(pattern, function(c) fields[#fields+1] = c end)
+    return fields
+end
+
 function bro_ssl_parse_booleans(tag, timestamp, record)
   if record["resumed"] == "T" then
     record["tls_resumed"] = true
@@ -21,3 +30,19 @@ function bro_ssl_parse_booleans(tag, timestamp, record)
     return 0, timestamp, record
   end
 end
+
+function bro_ssl_parse_fuids(tag, timestamp, record)
+  if record["cert_chain_fuids"] ~= nil and record["cert_chain_fuids"] ~= "(empty)" then
+    record["zeek_ssl_cert_chain_fuids"] = record.cert_chain_fuids:split(",")
+  end
+  if record["client_cert_chain_fuids"] ~= nil and record["client_cert_chain_fuids"] ~= "(empty)" then
+    record["zeek_ssl_client_cert_chain_fuids"] = record.client_cert_chain_fuids:split(",")
+  end
+
+  if record["zeek_ssl_cert_chain_fuids"] ~= nil or record["zeek_ssl_client_cert_chain_fuids"] ~= nil then
+    return 1, timestamp, record
+  else
+    return 0, timestamp, record
+  end
+end
+
