@@ -7,6 +7,23 @@ function string:split (sep)
     return fields
 end
 
+function bro_http_parse_uri(tag, timestamp, record)
+  local uri = {};
+  if record["uri"] ~= nil and record["uri"] ~= "-" then
+    uri = record.uri:split("?")
+  end
+  
+  record["url_path"] = uri[1]
+  record["url_query"] = uri[2]
+
+  if record["url_path"] ~= nil or 
+     record["url_query"] ~= nil then
+       return 1, timestamp, record
+     else
+       return 0, timestamp, record
+     end
+end
+
 function bro_http_parse_arrays(tag, timestamp, record)
   if record["resp_fuids"] ~= nil and record["resp_fuids"] ~= "-" then
     record["zeek_http_resp_fuids"] = record.resp_fuids:split(",")
