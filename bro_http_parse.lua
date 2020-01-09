@@ -7,6 +7,10 @@ function string:split (sep)
     return fields
 end
 
+function get_file_extension(url)
+  return url:match("^.+%.(.+)$")
+end
+
 function bro_http_parse_uri(tag, timestamp, record)
   local uri = {};
   if record["uri"] ~= nil and record["uri"] ~= "-" then
@@ -15,6 +19,9 @@ function bro_http_parse_uri(tag, timestamp, record)
   
   record["url_path"] = uri[1]
   record["url_query"] = uri[2]
+  if record["url_path"] ~= nil then
+    record["url_extension"] = get_file_extension(record["url_path"])
+  end
   record["url_full"] = record["url_scheme"] .. "://" .. record["url_domain"] .. ":" .. record["url_port"] .. record["url_path"]
   if record["url_query"] ~= nil then
     record["url_full"] = record["url_full"] .. "?" .. record["url_query"]
