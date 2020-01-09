@@ -15,13 +15,16 @@ function bro_http_parse_uri(tag, timestamp, record)
   
   record["url_path"] = uri[1]
   record["url_query"] = uri[2]
+  record["url_full"] = record["url_scheme"] .. "://" .. record["url_domain"] .. ":" .. record["url_port"] .. record["url_path"]
+  if record["url_query"] ~= nil then
+    record["url_full"] = record["url_full"] .. "?" .. record["url_query"]
+  end
 
-  if record["url_path"] ~= nil or 
-     record["url_query"] ~= nil then
-       return 1, timestamp, record
-     else
-       return 0, timestamp, record
-     end
+  if record["url_full"] ~= nil then
+    return 1, timestamp, record
+  else
+    return 0, timestamp, record
+  end
 end
 
 function bro_http_parse_arrays(tag, timestamp, record)
