@@ -27,13 +27,19 @@ function bro_http_parse_arrays(tag, timestamp, record)
   if record["orig_mime_types"] ~= nil and record["orig_mime_types"] ~= "-" then
     record["zeek_http_orig_mime_types"] = record.orig_mime_types:split(",")
   end
+  
+  if record["tags"] ~= nil and record["tags"] ~= "(empty)" then
+    record["zeek_http_tags"] = record.tags:split(",")
+  end
+  
 
   if record["zeek_http_resp_fuids"] ~= nil or 
      record["zeek_http_resp_filenames"] ~= nil or 
      record["zeek_http_resp_mime_types"] ~= nil or
      record["zeek_http_orig_fuids"] ~= nil or 
      record["zeek_http_orig_filenames"] ~= nil or 
-     record["zeek_http_orig_mime_types"] ~= nil 
+     record["zeek_http_orig_mime_types"] ~= nil or
+     record["zeek_http_tags"] ~= nil
      then
     return 1, timestamp, record
   else
