@@ -37,9 +37,6 @@ function bro_http_parse_arrays(tag, timestamp, record)
   if record["proxied"] ~= nil and record["proxied"] ~= "-" then
     record["zeek_http_proxied"] = record.proxied:split(",")
   end
-  
-  
-  
 
   if record["zeek_http_resp_fuids"] ~= nil or 
      record["zeek_http_resp_filenames"] ~= nil or 
