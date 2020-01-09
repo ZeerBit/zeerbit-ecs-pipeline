@@ -32,6 +32,14 @@ function bro_http_parse_arrays(tag, timestamp, record)
     record["zeek_http_tags"] = record.tags:split(",")
   end
   
+  -- To test 'proxied' parsing in the environment w/o a proxy, add this to $PREFIX/share/bro/site/local.bro
+  -- redef HTTP::proxy_headers += { "ACCEPT-ENCODING", "ACCEPT-LANGUAGE" };
+  if record["proxied"] ~= nil and record["proxied"] ~= "-" then
+    record["zeek_http_proxied"] = record.proxied:split(",")
+  end
+  
+  
+  
 
   if record["zeek_http_resp_fuids"] ~= nil or 
      record["zeek_http_resp_filenames"] ~= nil or 
@@ -39,7 +47,8 @@ function bro_http_parse_arrays(tag, timestamp, record)
      record["zeek_http_orig_fuids"] ~= nil or 
      record["zeek_http_orig_filenames"] ~= nil or 
      record["zeek_http_orig_mime_types"] ~= nil or
-     record["zeek_http_tags"] ~= nil
+     record["zeek_http_tags"] ~= nil or
+     record["zeek_http_proxied"] ~= nil
      then
     return 1, timestamp, record
   else
