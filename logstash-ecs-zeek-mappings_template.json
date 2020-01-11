@@ -3,7 +3,7 @@
     "logstash-ecs-*"
   ],
   "order": 3,
-  "version": 8,
+  "version": 9,
   "mappings": {
     "_meta": {
       "version": "1.4.0-dev-bortok"
@@ -136,6 +136,56 @@
                 "type": "keyword"
               },
               "client_cert_chain_fuids": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              }
+            }
+          },
+          "http": {
+            "properties": {
+              "trans_depth": {
+                "type": "long"
+              },
+              "status_msg": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "info_code": {
+                "type": "long"
+              },
+              "info_msg": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "tags": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "proxied": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "orig_fuids": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "orig_filenames": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "orig_mime_types": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "resp_fuids": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "resp_filenames": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "resp_mime_types": {
                 "ignore_above": 1024,
                 "type": "keyword"
               }
