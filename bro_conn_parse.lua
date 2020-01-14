@@ -1,20 +1,61 @@
+function string:toboolean()
+  --- constants
+  local TRUE = {
+      ['1'] = true,
+      ['t'] = true,
+      ['T'] = true,
+      ['true'] = true,
+      ['TRUE'] = true,
+      ['True'] = true,
+  }
+  local FALSE = {
+      ['0'] = false,
+      ['f'] = false,
+      ['F'] = false,
+      ['false'] = false,
+      ['FALSE'] = false,
+      ['False'] = false,
+  }
+  
+  if TRUE[self] == true then
+      return true
+  elseif FALSE[self] == false then
+      return false
+  else
+      return nil
+  end
+end
+
+function variable_to_boolean(var)
+  if type(var) == 'string' then
+    return var:toboolean()
+  elseif type(var) == 'boolean' then
+    return var
+  else
+    return nil
+  end
+end
+
 function bro_conn_parse_direction(tag, timestamp, record)
-  if record["local_orig"] == "T" and record["local_resp"] == "T" then
+  local local_orig = variable_to_boolean(record["local_orig"])
+  local local_resp = variable_to_boolean(record["local_resp"])
+    
+  if local_orig == true and local_resp == true then
     record["network_direction"] = "internal"
     return 1, timestamp, record
   end
       
-  if record["local_orig"] == "F" and record["local_resp"] == "F" then
+  if local_orig == false and local_resp == false then
     record["network_direction"] = "external"
     return 1, timestamp, record
   end
   
-  if record["local_orig"] == "T" and record["local_resp"] == "F" then
+  if local_orig == true and local_resp == false then
     record["network_direction"] = "outbound"
     return 1, timestamp, record
   end
 
-  if record["local_orig"] == "F" and record["local_resp"] == "T" then
+  if local_orig == false and local_resp == true then
     record["network_direction"] = "inbound"
     return 1, timestamp, record
   end
