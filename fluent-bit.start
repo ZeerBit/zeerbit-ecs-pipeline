@@ -8,4 +8,6 @@ export ES_PASSWORD=
 # See https://github.com/fluent/fluent-bit/issues/326
 export TZ=UTC
 
+export LUA_PATH="/usr/local/etc/fluent-bit/?.lua;"
+
 fluent-bit -c /usr/local/etc/fluent-bit/fluent-bit.conf
