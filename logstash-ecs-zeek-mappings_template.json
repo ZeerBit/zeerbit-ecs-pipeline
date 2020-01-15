@@ -31,6 +31,10 @@
             "ignore_above": 1024,
             "type": "keyword"
           },
+          "log_format": {
+            "ignore_above": 1024,
+            "type": "keyword"
+          },
           "write_ts": {
             "type": "date"
           },
