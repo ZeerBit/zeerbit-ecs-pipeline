@@ -19,11 +19,16 @@ function bro_http_parse_uri(tag, timestamp, record)
   
   record["url_path"] = uri[1]
   record["url_query"] = uri[2]
+  if record["url_scheme"] ~= nil and record["url_domain"] ~= nil and record["url_port"] ~= nil then
+    record["url_full"] = record["url_scheme"] .. "://" .. record["url_domain"] .. ":" .. record["url_port"]
+  end
   if record["url_path"] ~= nil then
     record["url_extension"] = get_file_extension(record["url_path"])
+    record["url_full"] = record["url_full"] .. record["url_path"]
+  else
+    record["url_full"] = record["url_full"] .. "/"
   end
-  record["url_full"] = record["url_scheme"] .. "://" .. record["url_domain"] .. ":" .. record["url_port"] .. record["url_path"]
-  if record["url_query"] ~= nil then
+  if record["url_full"] ~= nil and record["url_query"] ~= nil then
     record["url_full"] = record["url_full"] .. "?" .. record["url_query"]
   end
 
