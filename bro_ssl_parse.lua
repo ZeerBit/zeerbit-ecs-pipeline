@@ -1,5 +1,6 @@
 require('parse_helpers')
 
+-- Only called when parsing tab log files, no need to account for getting original values as booleans from json
 function bro_ssl_parse_booleans(tag, timestamp, record)
   if record["resumed"] == "T" then
     record["tls_resumed"] = true
@@ -24,6 +25,7 @@ function bro_ssl_parse_booleans(tag, timestamp, record)
   end
 end
 
+-- Only called when parsing tab log files, no need to account for getting original values as tables from json
 function bro_ssl_parse_fuids(tag, timestamp, record)
   if record["cert_chain_fuids"] ~= nil and record["cert_chain_fuids"] ~= "(empty)" then
     record["zeek_ssl_cert_chain_fuids"] = record.cert_chain_fuids:split(",")
