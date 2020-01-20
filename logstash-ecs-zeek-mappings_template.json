@@ -3,7 +3,7 @@
     "logstash-ecs-*"
   ],
   "order": 3,
-  "version": 9,
+  "version": 10,
   "mappings": {
     "_meta": {
       "version": "1.4.0-dev-bortok"
@@ -26,6 +26,17 @@
           "uid": {
             "ignore_above": 1024,
             "type": "keyword"
+          },
+          "log_file": {
+            "ignore_above": 1024,
+            "type": "keyword"
+          },
+          "log_format": {
+            "ignore_above": 1024,
+            "type": "keyword"
+          },
+          "write_ts": {
+            "type": "date"
           },
           "connection": {
             "properties": {

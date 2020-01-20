@@ -1,11 +1,4 @@
--- Duplication of the split function definition
--- TODO include from parse_helpers.lua
-function string:split (sep)
-    local sep, fields = sep or ":", {}
-    local pattern = string.format("([^%s]+)", sep)
-    self:gsub(pattern, function(c) fields[#fields+1] = c end)
-    return fields
-end
+require('parse_helpers')
 
 function get_file_extension(url)
   return url:match("^.+%.(.+)$")
@@ -39,6 +32,7 @@ function bro_http_parse_uri(tag, timestamp, record)
   end
 end
 
+-- Only called when parsing tab log files, no need to account for getting original values as tables from json
 function bro_http_parse_arrays(tag, timestamp, record)
   if record["resp_fuids"] ~= nil and record["resp_fuids"] ~= "-" then
     record["zeek_http_resp_fuids"] = record.resp_fuids:split(",")
@@ -85,3 +79,12 @@ function bro_http_parse_arrays(tag, timestamp, record)
   end
 end
 
+-- Only calls when parsing JSON log format
+function bro_http_cleanup_arrays(tag, timestamp, record)
+  if type(record["zeek_http_tags"]) == 'table' and #record["zeek_http_tags"] == 0 then
+    record["zeek_http_tags"] = nil
+    return 1, timestamp, record
+  else
+    return 0, timestamp, record
+  end    
+end

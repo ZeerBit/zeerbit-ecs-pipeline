@@ -1,9 +1,4 @@
-function string:split (sep)
-    local sep, fields = sep or ":", {}
-    local pattern = string.format("([^%s]+)", sep)
-    self:gsub(pattern, function(c) fields[#fields+1] = c end)
-    return fields
-end
+require('parse_helpers')
 
 ---checks if a string represents an ip address
 -- @return true or false
@@ -76,8 +71,8 @@ end
 
 function bro_dns_parse_answers(tag, timestamp, record)
   if record["answers"] ~= nil and record["TTLs"] ~= nil then
-    local answers_data_table = record.answers:split(",")
-    local answers_ttl_table = record.TTLs:split(",")
+    local answers_data_table = variable_to_table(record.answers, ",")
+    local answers_ttl_table = variable_to_table(record.TTLs, ",")
 
     local ordered_keys = {}
 
@@ -140,16 +135,16 @@ end
 
 function bro_dns_parse_flags(tag, timestamp, record)
   local flags = {}
-  if record["AA"] == "T" then
+  if variable_to_boolean(record["AA"]) then
     table.insert(flags, 'AA')
   end
-  if record["TC"] == "T" then
+  if variable_to_boolean(record["TC"]) then
     table.insert(flags, 'TC')
   end
-  if record["RD"] == "T" then
+  if variable_to_boolean(record["RD"]) then
     table.insert(flags, 'RD')
   end
-  if record["RA"] == "T" then
+  if variable_to_boolean(record["RA"]) then
     table.insert(flags, 'RA')
   end
   if #flags > 0 then
@@ -165,18 +160,18 @@ function bro_dns_parse_zeek(tag, timestamp, record)
     record["zeek"] = {}
   end
   record["zeek"]["dns"] = {}
-  if record["rejected"] == "T" then
+  if variable_to_boolean(record["rejected"]) then
     record["zeek"]["dns"]["rejected"] = true
   else
     record["zeek"]["dns"]["rejected"] = false
   end
   
   if record["answers"] ~= nil and record["answers"] ~= "-" then
-    record["zeek"]["dns"]["answers"] = record.answers:split(",")
+    record["zeek"]["dns"]["answers"] = variable_to_table(record.answers, ",")
   end
   
   if record["TTLs"] ~= nil and record["TTLs"] ~= "-" then
-    local ttls_strings_table = record.TTLs:split(",")
+    local ttls_strings_table = variable_to_table(record.TTLs, ",")
     local ttls_numbers_table = {}
     for k,v in pairs(ttls_strings_table) do
       table.insert(ttls_numbers_table, tonumber(v))

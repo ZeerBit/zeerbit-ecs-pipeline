@@ -1,3 +1,9 @@
 #!/bin/bash
 
+# This removes the need for Time_Offset parameter in parsers.conf
+# See https://github.com/fluent/fluent-bit/issues/326
+export TZ=UTC
+
+export LUA_PATH="$HOME/fluent-bit-test/?.lua;"
+
 fluent-bit -c ~/fluent-bit-test/fluent-bit-test.conf
