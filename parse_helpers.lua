@@ -5,6 +5,16 @@ function string:split (sep)
     return fields
 end
 
+function variable_to_table(var, sep)
+  if type(var) == 'string' then
+    return var:split(sep)
+  elseif type(var) == 'table' then
+    return var
+  else
+    return nil
+  end
+end
+
 function string:toboolean()
   --- constants
   local TRUE = {
