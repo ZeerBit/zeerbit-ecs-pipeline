@@ -8,6 +8,10 @@ export ES_PASSWORD=
 # See https://github.com/fluent/fluent-bit/issues/326
 export TZ=UTC
 
-export LUA_PATH="/usr/local/etc/fluent-bit/?.lua;"
+export FBIT_PATH="/usr/local/etc/fluent-bit"
+export FBIT_LOG="/var/log/fluent-bit.log"
+export LUA_PATH="${FBIT_PATH}/?.lua;"
+export TLS_MODE=On
+export TLS_CA_PATH="/etc/ssl/certs"
 
-fluent-bit -c /usr/local/etc/fluent-bit/fluent-bit.conf
+sudo -E -u fluentbit /usr/local/bin/fluent-bit -c "${FBIT_PATH}/fluent-bit.conf"
