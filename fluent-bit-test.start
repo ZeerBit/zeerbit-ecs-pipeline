@@ -4,6 +4,8 @@
 # See https://github.com/fluent/fluent-bit/issues/326
 export TZ=UTC
 
-export LUA_PATH="$HOME/fluent-bit-test/?.lua;"
+export FBIT_PATH="$HOME/fluent-bit-test"
+export FBIT_LOG="${FBIT_PATH}/fluent-bit.log"
+export LUA_PATH="${FBIT_PATH}/?.lua;"
 
-fluent-bit -c ~/fluent-bit-test/fluent-bit-test.conf
+fluent-bit -c "${FBIT_PATH}/fluent-bit-test.conf"
