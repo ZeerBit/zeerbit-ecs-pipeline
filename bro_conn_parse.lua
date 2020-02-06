@@ -1,18 +1,7 @@
 require('parse_helpers')
 
 function bro_conn_prefix_all(tag, timestamp, record)
-  local prefix = "zeek_connection_"
-  local prefixed_record = {}
-  for k,v in pairs(record) do
-    if k:match("^%a") then
-      prefixed_record[prefix..k] = v
-      record[k] = nil
-    end
-  end
-  for k,v in pairs(prefixed_record) do
-    record[k] = v
-  end
-  return 1, timestamp, record
+  return 1, timestamp, record_prefix_all(record, "zeek_connection_")
 end
 
 function bro_conn_parse_direction(tag, timestamp, record)
