@@ -4,7 +4,7 @@
 # See https://github.com/fluent/fluent-bit/issues/326
 export TZ=UTC
 
-export FBIT_PATH="$HOME/fluent-bit-test"
+export FBIT_PATH="/usr/local/etc/fluent-bit/devtest"
 export FBIT_LOG="${FBIT_PATH}/fluent-bit.log"
 export LUA_PATH="${FBIT_PATH}/?.lua;"
 
