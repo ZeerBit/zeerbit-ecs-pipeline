@@ -65,10 +65,10 @@ function bro_dns_prefix_all(tag, timestamp, record)
 end
 
 function bro_dns_determine_dns_type(tag, timestamp, record)
-  if record["dns_response_code"] == nil or record["dns_response_code"] == "-" then
-    record["dns_type"] = "query"
+  if record["_dns_response_code"] == nil or record["_dns_response_code"] == "-" then
+    record["_dns_type"] = "query"
   else
-    record["dns_type"] = "answer"
+    record["_dns_type"] = "answer"
   end
   return 1, timestamp, record
 end
@@ -113,7 +113,7 @@ function bro_dns_parse_answers(tag, timestamp, record)
     end
   
     if #answers > 0 then
-      record["dns_answers"] = answers
+      record["_dns_answers"] = answers
       local resolved_ip = {}
       local resolved_name = {}
       for k,v in pairs(answers_data_table) do
@@ -124,10 +124,10 @@ function bro_dns_parse_answers(tag, timestamp, record)
         end
       end
       if #resolved_ip > 0 then
-        record["dns_resolved_ip"] = resolved_ip
+        record["_dns_resolved_ip"] = resolved_ip
       end
       if #resolved_name > 0 then
-        record["dns_resolved_name"] = resolved_name
+        record["_dns_resolved_name"] = resolved_name
       end
     end
     
@@ -152,7 +152,7 @@ function bro_dns_parse_flags(tag, timestamp, record)
     table.insert(flags, 'RA')
   end
   if #flags > 0 then
-    record["dns_header_flags"] = flags
+    record["_dns_header_flags"] = flags
     return 1, timestamp, record
   else
     return 0, timestamp, record
@@ -160,27 +160,26 @@ function bro_dns_parse_flags(tag, timestamp, record)
 end
 
 function bro_dns_parse_zeek(tag, timestamp, record)
-  if record["zeek"] == nil then
-    record["zeek"] = {}
-  end
-  record["zeek"]["dns"] = {}
-  if variable_to_boolean(record["zeek_dns_rejected"]) then
-    record["zeek"]["dns"]["rejected"] = true
-  else
-    record["zeek"]["dns"]["rejected"] = false
+  record["zeek_dns_rejected"] = variable_to_boolean(record["zeek_dns_rejected"])
+  
+  local vector = record["zeek_dns_answers"]
+  if  vector ~= nil and vector ~= "-" then
+    record["zeek_dns_answers"] = variable_to_table(vector, ",")
+  else 
+    record["zeek_dns_answers"] = nil
   end
   
-  if record["zeek_dns_answers"] ~= nil and record["zeek_dns_answers"] ~= "-" then
-    record["zeek"]["dns"]["answers"] = variable_to_table(record.zeek_dns_answers, ",")
-  end
-  
-  if record["zeek_dns_TTLs"] ~= nil and record["zeek_dns_TTLs"] ~= "-" then
-    local ttls_strings_table = variable_to_table(record.zeek_dns_TTLs, ",")
+  local vector = record["zeek_dns_TTLs"]
+  if vector ~= nil and vector ~= "-" then
+    local ttls_strings_table = variable_to_table(vector, ",")
     local ttls_numbers_table = {}
     for k,v in pairs(ttls_strings_table) do
       table.insert(ttls_numbers_table, tonumber(v))
     end
-    record["zeek"]["dns"]["ttls"] = ttls_numbers_table
+    record["zeek_dns_TTLs"] = nil
+    record["zeek_dns_ttls"] = ttls_numbers_table
+  else 
+    record["zeek_dns_TTLs"] = nil
   end
   
   return 1, timestamp, record
