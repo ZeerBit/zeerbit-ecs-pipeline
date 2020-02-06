@@ -1,19 +1,27 @@
 require('parse_helpers')
 
+function bro_dhcp_prefix_all(tag, timestamp, record)
+  return 1, timestamp, record_prefix_all(record, "zeek_dhcp_")
+end
+
 function bro_dhcp_parse_uids(tag, timestamp, record)
-  if record["uids"] ~= nil and type(record["uids"]) == "string" and record["uids"] ~= "-" then
-    record["zeek_dhcp_uids"] = record.uids:split(",")
+  local vector = record["zeek_dhcp_uids"]
+  if vector ~= nil and type(vector) == "string" and vector ~= "-" then
+    record["zeek_dhcp_uids"] = vector:split(",")
     return 1, timestamp, record
   else
-    return 0, timestamp, record
+    record["zeek_dhcp_uids"] = nil
+    return 1, timestamp, record
   end
 end
 
 function bro_dhcp_parse_msg_types(tag, timestamp, record)
-  if record["msg_types"] ~= nil and type(record["msg_types"]) == "string" and record["msg_types"] ~= "-" then
-    record["zeek_dhcp_msg_types"] = record.msg_types:split(",")
+  local vector = record["zeek_dhcp_msg_types"]
+  if vector ~= nil and type(vector) == "string" and vector ~= "-" then
+    record["zeek_dhcp_msg_types"] = vector:split(",")
     return 1, timestamp, record
   else
-    return 0, timestamp, record
+    record["zeek_dhcp_msg_types"] = nil
+    return 1, timestamp, record
   end
 end
