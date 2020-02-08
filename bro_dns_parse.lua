@@ -92,11 +92,12 @@ function bro_dns_parse_answers(tag, timestamp, record)
     local class_key = "class"
     local class_value = nil
     
-    if record["question"] ~= nil and record["question"]["class"] ~= nil and record["question"]["class"] ~= "-" then
-      if record["question"]["class"] == "C_INTERNET" then
+    local question_class = record["_dns_question_class"]
+    if question_class ~= nil and question_class ~= "-" then
+      if question_class == "C_INTERNET" then
         class_value = "IN"
       else
-        class_value = record["question"]["class"]
+        class_value = question_class
       end
     end
   
