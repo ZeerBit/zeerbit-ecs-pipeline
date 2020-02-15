@@ -1,6 +1,6 @@
 # ECS pipeline for Zeek with Fluent Bit
 ## Overview
-Elastic Common Schema (ECS) pipeline for Zeek/Bro network traffic analyzer with [Fluent Bit](https://fluentbit.io/).
+[Elastic Common Schema (ECS)](https://www.elastic.co/guide/en/ecs/current/ecs-reference.html) pipeline for [Zeek](https://www.zeek.org/) network traffic analyzer with [Fluent Bit](https://fluentbit.io/).
 
 ## Zeek logs
 The following [Zeek logs](https://docs.zeek.org/en/current/script-reference/log-files.html) are supported:
@@ -34,7 +34,7 @@ Choose a folder for the pipeline code and clone the repository
     chgrp fluentbit $FBIT_PIPELINE
     chmod g+w $FBIT_PIPELINE
 
-Edit startup script `fluent-bit.start` to define Elasticsearch connection parameters, as well as location of the pipeline.
+Edit startup script [`fluent-bit.start`](fluent-bit.start) to define Elasticsearch connection parameters, as well as location of the pipeline.
 
     export ES_HOST=
     export ES_PORT=
@@ -43,12 +43,14 @@ Edit startup script `fluent-bit.start` to define Elasticsearch connection parame
     
     export FBIT_PATH="/usr/local/etc/fluent-bit/zeek"
 
-Edit input configuration in `fluent-bit-input.conf` to provide information about your Zeek deployment and update paths to Zeek log files, if needed.
+Edit input configuration in [`fluent-bit-input.conf`](fluent-bit-input.conf) to provide information about your Zeek deployment and update path to Zeek log file spool directory, if needed.
 
     @SET observer_hostname=localhost
     @SET observer_product=zeek
     @SET observer_version=3.0.1
     @SET labels_env=prod
+    
+    @SET zeeklogdir=/usr/local/zeek/spool/zeek
 
 Start Fluent Bit pipeline
 
