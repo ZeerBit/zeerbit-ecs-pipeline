@@ -1,8 +1,12 @@
 require('parse_helpers')
 
+function bro_conn_prefix_all(tag, timestamp, record)
+  return 1, timestamp, record_prefix_all(record, "zeek_connection_")
+end
+
 function bro_conn_parse_direction(tag, timestamp, record)
-  local local_orig = variable_to_boolean(record["local_orig"])
-  local local_resp = variable_to_boolean(record["local_resp"])
+  local local_orig = variable_to_boolean(record["zeek_connection_local_orig"])
+  local local_resp = variable_to_boolean(record["zeek_connection_local_resp"])
     
   if local_orig == true and local_resp == true then
     record["network_direction"] = "internal"

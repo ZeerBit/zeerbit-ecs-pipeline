@@ -53,3 +53,15 @@ function variable_to_boolean(var)
   end
 end
 
+function record_prefix_all(record, prefix)
+  local prefixed_record = {}
+  for k,v in pairs(record) do
+    if k:match("^%a") then
+      prefixed_record[prefix..k] = v
+    else
+      prefixed_record[k] = v
+    end
+  end
+  return prefixed_record
+end
+
