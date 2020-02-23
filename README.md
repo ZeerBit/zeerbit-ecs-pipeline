@@ -1,6 +1,9 @@
-# ECS pipeline for Zeek with Fluent Bit
+# Elastic Common Schema (ECS) ingest pipeline for Zeek network traffic analyzer 
 ## Overview
-[Elastic Common Schema (ECS)](https://www.elastic.co/guide/en/ecs/current/ecs-reference.html) pipeline for [Zeek](https://www.zeek.org/) network traffic analyzer with [Fluent Bit](https://fluentbit.io/).
+ZeerBit-ECS-Pipeline is an Elasticsearch ingest pipeline for [Zeek](https://www.zeek.org/) network traffic analyzer. It maps original Zeek log data into [ECS](https://www.elastic.co/guide/en/ecs/current/ecs-reference.html) format. The pipeline is designed for [Fluent Bit](https://fluentbit.io/) log processor with goals of achieving:
+
+- high performance
+- small footprint
 
 ## Zeek logs
 The following [Zeek logs](https://docs.zeek.org/en/current/script-reference/log-files.html) are supported:
