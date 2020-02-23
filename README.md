@@ -61,7 +61,7 @@ Start Fluent Bit pipeline
 
 ## Copyright notice
 
-COPYRIGHT 2019 - 2020 [Alex Bortok](https://github.com/bortok)
+COPYRIGHT 2019 - 2020 [Alex Bortok](https://github.com/bortok) and the [ZeerBit](https://github.com/zeerbit) contributors.
 
 This code is provided under the TBD.
 You can find the complete terms in LICENSE.txt
