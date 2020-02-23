@@ -33,7 +33,7 @@ Choose a folder for the pipeline code and clone the repository
     export FBIT_PATH=/usr/local/etc/fluent-bit
     cd $FBIT_PATH
     export FBIT_PIPELINE=zeek
-    git clone https://github.com/bortok/zeerbit-ecs-pipeline.git $FBIT_PIPELINE
+    git clone https://github.com/ZeerBit/zeerbit-ecs-pipeline.git $FBIT_PIPELINE
     chgrp fluentbit $FBIT_PIPELINE
     chmod g+w $FBIT_PIPELINE
 
