@@ -1,6 +1,9 @@
-# ECS pipeline for Zeek with Fluent Bit
+# Elastic Common Schema (ECS) ingest pipeline for Zeek network traffic analyzer 
 ## Overview
-[Elastic Common Schema (ECS)](https://www.elastic.co/guide/en/ecs/current/ecs-reference.html) pipeline for [Zeek](https://www.zeek.org/) network traffic analyzer with [Fluent Bit](https://fluentbit.io/).
+ZeerBit-ECS-Pipeline is an Elasticsearch ingest pipeline for [Zeek](https://www.zeek.org/) network traffic analyzer. It maps original Zeek log data into [ECS](https://www.elastic.co/guide/en/ecs/current/ecs-reference.html) format. The pipeline is designed for [Fluent Bit](https://fluentbit.io/) log processor with goals of achieving:
+
+- high performance
+- small footprint
 
 ## Zeek logs
 The following [Zeek logs](https://docs.zeek.org/en/current/script-reference/log-files.html) are supported:
@@ -30,7 +33,7 @@ Choose a folder for the pipeline code and clone the repository
     export FBIT_PATH=/usr/local/etc/fluent-bit
     cd $FBIT_PATH
     export FBIT_PIPELINE=zeek
-    git clone https://github.com/bortok/zeek-ecs-fluent-bit.git $FBIT_PIPELINE
+    git clone https://github.com/ZeerBit/zeerbit-ecs-pipeline.git $FBIT_PIPELINE
     chgrp fluentbit $FBIT_PIPELINE
     chmod g+w $FBIT_PIPELINE
 
@@ -58,7 +61,7 @@ Start Fluent Bit pipeline
 
 ## Copyright notice
 
-COPYRIGHT 2019 - 2020 [Alex Bortok](https://github.com/bortok)
+COPYRIGHT 2019 - 2020 [Alex Bortok](https://github.com/bortok) and the [ZeerBit](https://github.com/zeerbit) contributors.
 
 This code is provided under the TBD.
 You can find the complete terms in LICENSE.txt
