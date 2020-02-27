@@ -10,8 +10,10 @@ function zeek_conn_custom_parse_geo(tag, timestamp, record)
   
   local source_geo_lon      = record["zeek_connection_orig_geo_lon"]
   local source_geo_lat      = record["zeek_connection_orig_geo_lat"]
+  local source_geo_cc       = record["zeek_connection_orig_geo_cc"]
   local destination_geo_lon = record["zeek_connection_resp_geo_lon"]
   local destination_geo_lat = record["zeek_connection_resp_geo_lat"]
+  local destination_geo_cc  = record["zeek_connection_resp_geo_cc"]
   
   local source_location = {}
   local destination_location = {}
@@ -35,6 +37,14 @@ function zeek_conn_custom_parse_geo(tag, timestamp, record)
   if table_size(destination_location) > 0 then
     record["destination_geo"] = {}
     record["destination_geo"]["location"] = destination_location
+    modified = true
+  end
+  if type(source_geo_cc) == "string" and string.len(source_geo_cc) > 1 then
+    record["source_geo"]["country_iso_code"] = source_geo_cc
+    modified = true
+  end
+  if type(destination_geo_cc) == "string" and string.len(destination_geo_cc) > 1 then
+    record["destination_geo"]["country_iso_code"] = destination_geo_cc
     modified = true
   end
 
