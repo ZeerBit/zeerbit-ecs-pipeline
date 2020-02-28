@@ -5,8 +5,10 @@ function zeek_conn_custom_parse_geo(tag, timestamp, record)
   -- adds the following fields for final nesting under source.geo and destination.geo
   -- source_geo.location.lon
   -- source_geo.location.lat
+  -- source_geo.country_iso_code
   -- destination_geo.location.lon
   -- destination_geo.location.lat
+  -- destination_geo.country_iso_code
   
   local source_geo_lon      = record["zeek_connection_orig_geo_lon"]
   local source_geo_lat      = record["zeek_connection_orig_geo_lat"]
