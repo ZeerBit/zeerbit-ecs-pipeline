@@ -33,12 +33,14 @@ function bro_dhcp_populate_missing_host_name(tag, timestamp, record)
       record["host_name"] = record["host_hostname"]
       if (record["host_domain"] ~= nil and record["host_domain"] ~= "-") then
         record["host_name"] = record["host_name"].."."..record["host_domain"]
+        return 1, timestamp, record
       end
-      return 1, timestamp, record
-    else
-      return 0, timestamp, record
+    else 
+      if (record["host_ip"] ~= nil and record["host_ip"] ~= "-") then
+        record["host_name"] = record["host_ip"]
+        return 1, timestamp, record
+      end
     end
-  else
-    return 0, timestamp, record
   end
+  return 0, timestamp, record
 end
