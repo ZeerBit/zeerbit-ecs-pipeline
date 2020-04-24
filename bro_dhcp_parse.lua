@@ -25,3 +25,23 @@ function bro_dhcp_parse_msg_types(tag, timestamp, record)
     return 1, timestamp, record
   end
 end
+
+-- NOT IN USE, move to zeer_hosts to choose between dns resolved fqdn and ip if not resolved for host.name field
+-- If zeek_dhcp_client_fqdn (DHCP Option 81) is empty, use host.hostname + "." + host.domain to populate the field
+function bro_dhcp_populate_missing_host_name(tag, timestamp, record)
+  if (record["host_name"] == nil or record["host_name"] == "-") then
+    if (record["host_hostname"] ~= nil and record["host_hostname"] ~= "-") then
+      record["host_name"] = record["host_hostname"]
+      if (record["host_domain"] ~= nil and record["host_domain"] ~= "-") then
+        record["host_name"] = record["host_name"].."."..record["host_domain"]
+        return 1, timestamp, record
+      end
+    else 
+      if (record["host_ip"] ~= nil and record["host_ip"] ~= "-") then
+        record["host_name"] = record["host_ip"]
+        return 1, timestamp, record
+      end
+    end
+  end
+  return 0, timestamp, record
+end
