@@ -38,6 +38,86 @@
           "write_ts": {
             "type": "date"
           },
+          "stats": {
+            "properties": {
+              "peer": {
+                "ignore_above": 1024,
+                "type": "keyword"
+              },
+              "mem": {
+                "type": "integer"
+              },
+              "pkts_proc": {
+                "type": "integer"
+              },
+              "bytes_recv": {
+                "type": "integer"
+              },
+              "pkts_dropped": {
+                "type": "integer"
+              },
+              "pkts_link": {
+                "type": "integer"
+              },
+              "pkt_lag": {
+                "type": "long"
+              },
+              "events_proc": {
+                "type": "integer"
+              },
+              "events_queued": {
+                "type": "integer"
+              },
+              "active_tcp_conns": {
+                "type": "integer"
+              },
+              "active_udp_conns": {
+                "type": "integer"
+              },
+              "active_icmp_conns": {
+                "type": "integer"
+              },
+              "tcp_conns": {
+                "type": "integer"
+              },
+              "udp_conns": {
+                "type": "integer"
+              },
+              "icmp_conns": {
+                "type": "integer"
+              },
+              "timers": {
+                "type": "integer"
+              },
+              "active_timers": {
+                "type": "integer"
+              },
+              "files": {
+                "type": "integer"
+              },
+              "active_files": {
+                "type": "integer"
+              },
+              "dns_requests": {
+                "type": "integer"
+              },
+              "active_dns_requests": {
+                "type": "integer"
+              },
+              "reassem_tcp_size": {
+                "type": "integer"
+              },
+              "reassem_file_size": {
+                "type": "integer"
+              },
+              "reassem_frag_size": {
+                "type": "integer"
+              },
+              "reassem_unknown_size": {
+                "type": "integer"
+              }
+            }
+          },
           "connection": {
             "properties": {
               "conn_state": {
