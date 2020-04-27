@@ -3,7 +3,7 @@
     "logstash-ecs-*"
   ],
   "order": 3,
-  "version": 11,
+  "version": 12,
   "mappings": {
     "_meta": {
       "version": "1.4.0-dev-bortok"
@@ -45,6 +45,9 @@
                 "type": "keyword"
               },
               "mem": {
+                "type": "integer"
+              },
+              "mem_bytes": {
                 "type": "integer"
               },
               "pkts_proc": {
