@@ -48,7 +48,7 @@
                 "type": "integer"
               },
               "mem_bytes": {
-                "type": "integer"
+                "type": "long"
               },
               "pkts_proc": {
                 "type": "integer"
