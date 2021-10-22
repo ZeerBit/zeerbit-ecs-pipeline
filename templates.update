@@ -4,6 +4,6 @@ export ES_PORT=
 export ES_USER=
 export ES_PASSWORD=
 
-curl --user $ES_USER:$ES_PASSWORD -XPUT "https://$ES_HOST:$ES_PORT/_template/logstash-ecs_template" --header "Content-Type: application/json" -d @'logstash-ecs_template.json'
-curl --user $ES_USER:$ES_PASSWORD -XPUT "https://$ES_HOST:$ES_PORT/_template/logstash-ecs-fluentbit_template" --header "Content-Type: application/json" -d @'logstash-ecs-fluentbit_template.json'
-curl --user $ES_USER:$ES_PASSWORD -XPUT "https://$ES_HOST:$ES_PORT/_template/logstash-ecs-zeek-mappings_template" --header "Content-Type: application/json" -d @'logstash-ecs-zeek-mappings_template.json'
+curl -k --user $ES_USER:$ES_PASSWORD -XPUT "https://$ES_HOST:$ES_PORT/_template/logstash-ecs_template" --header "Content-Type: application/json" -d @'logstash-ecs_template.json'
+curl -k --user $ES_USER:$ES_PASSWORD -XPUT "https://$ES_HOST:$ES_PORT/_template/logstash-ecs-fluentbit_template" --header "Content-Type: application/json" -d @'logstash-ecs-fluentbit_template.json'
+curl -k --user $ES_USER:$ES_PASSWORD -XPUT "https://$ES_HOST:$ES_PORT/_template/logstash-ecs-zeek-mappings_template" --header "Content-Type: application/json" -d @'logstash-ecs-zeek-mappings_template.json'
